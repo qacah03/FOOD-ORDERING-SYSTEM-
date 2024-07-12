@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="RestaurantService"
+             targetNamespace="http://localhost/restaurant"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://localhost/restaurant"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <types>
+        <xsd:schema targetNamespace="http://localhost/restaurant">
+            <xsd:element name="getMenuResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="tns:menuItem" maxOccurs="unbounded" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDrinksResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="tns:menuItem" maxOccurs="unbounded" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="menuItem">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="name" type="xsd:string"/>
+                        <xsd:element name="description" type="xsd:string"/>
+                        <xsd:element name="price" type="xsd:decimal"/>
+                        <xsd:element name="image_data" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="placeOrder">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="customer_name" type="xsd:string"/>
+                        <xsd:element name="items" type="xsd:string"/>
+                        <xsd:element name="total" type="xsd:decimal"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="placeOrderResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getOrdersByStatus">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="status" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getOrdersByStatusResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="tns:Order" maxOccurs="unbounded" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="Order">
+                <xsd:sequence>
+                    <xsd:element name="order_id" type="xsd:int"/>
+                    <xsd:element name="customer_name" type="xsd:string"/>
+                    <xsd:element name="items" type="xsd:string"/>
+                    <xsd:element name="total" type="xsd:float"/>
+                    <xsd:element name="status" type="xsd:string"/>
+                    <xsd:element name="sales_date" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <!-- cancel order elements -->
+            <xsd:element name="cancelOrder">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="orderId" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cancelOrderResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="calculateMonthlySales">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="month" type="xsd:int"/>
+                        <xsd:element name="year" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="calculateMonthlySalesResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="monthly_sales" type="xsd:decimal"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="insertMenuItem">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="name" type="xsd:string"/>
+                        <xsd:element name="description" type="xsd:string"/>
+                        <xsd:element name="price" type="xsd:decimal"/>
+                        <xsd:element name="image_data" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="insertMenuItemResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="deleteMenuItem">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="name" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="deleteMenuItemResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="return" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="getMenuRequest"/>
+    <message name="getMenuResponse">
+        <part name="parameters" element="tns:getMenuResponse"/>
+    </message>
+
+    <message name="getDrinksRequest"/>
+    <message name="getDrinksResponse">
+        <part name="parameters" element="tns:getDrinksResponse"/>
+    </message>
+
+    <message name="placeOrderRequest">
+        <part name="parameters" element="tns:placeOrder"/>
+    </message>
+    <message name="placeOrderResponse">
+        <part name="parameters" element="tns:placeOrderResponse"/>
+    </message>
+
+    <message name="getOrdersByStatusRequest">
+        <part name="parameters" element="tns:getOrdersByStatus"/>
+    </message>
+    <message name="getOrdersByStatusResponse">
+        <part name="parameters" element="tns:getOrdersByStatusResponse"/>
+    </message>
+
+    <message name="updateOrderStatusRequest">
+        <part name="parameters" element="tns:updateOrderStatus"/>
+    </message>
+
+    <message name="updateOrderStatusResponse">
+        <part name="parameters" element="tns:updateOrderStatusResponse"/>
+    </message>
+    <message name="cancelOrderRequest">
+        <part name="parameters" element="tns:cancelOrder"/>
+    </message>
+    <message name="cancelOrderResponse">
+        <part name="parameters" element="tns:cancelOrderResponse"/>
+    </message>
+    <message name="calculateMonthlySalesRequest">
+        <part name="parameters" element="tns:calculateMonthlySales"/>
+    </message>
+    <message name="calculateMonthlySalesResponse">
+        <part name="parameters" element="tns:calculateMonthlySalesResponse"/>
+    </message>
+
+    <message name="insertMenuItemRequest">
+        <part name="parameters" element="tns:insertMenuItem"/>
+    </message>
+    <message name="insertMenuItemResponse">
+        <part name="parameters" element="tns:insertMenuItemResponse"/>
+    </message>
+
+    <message name="deleteMenuItemRequest">
+        <part name="parameters" element="tns:deleteMenuItem"/>
+    </message>
+    <message name="deleteMenuItemResponse">
+        <part name="parameters" element="tns:deleteMenuItemResponse"/>
+    </message>
+
+
+    <portType name="RestaurantPortType">
+        <operation name="getMenu">
+            <input message="tns:getMenuRequest"/>
+            <output message="tns:getMenuResponse"/>
+        </operation>
+        <operation name="getDrinks">
+            <input message="tns:getDrinksRequest"/>
+            <output message="tns:getDrinksResponse"/>
+        </operation>
+        <operation name="placeOrder">
+            <input message="tns:placeOrderRequest"/>
+            <output message="tns:placeOrderResponse"/>
+        </operation>
+        <operation name="getOrdersByStatus">
+            <input message="tns:getOrdersByStatusRequest"/>
+            <output message="tns:getOrdersByStatusResponse"/>
+        </operation>
+        <operation name="updateOrderStatus">
+            <input message="tns:updateOrderStatusRequest"/>
+            <output message="tns:updateOrderStatusResponse"/>
+        </operation>
+        <!-- for cancel order -->
+        <operation name="cancelOrder">
+            <input message="tns:cancelOrderRequest"/>
+            <output message="tns:cancelOrderResponse"/>
+        </operation>
+        <operation name="calculateMonthlySales">
+            <input message="tns:calculateMonthlySalesRequest"/>
+            <output message="tns:calculateMonthlySalesResponse"/>
+        </operation>
+
+        <operation name="insertMenuItem">
+            <input message="tns:insertMenuItemRequest"/>
+            <output message="tns:insertMenuItemResponse"/>
+        </operation>
+
+        <operation name="deleteMenuItem">
+            <input message="tns:deleteMenuItemRequest"/>
+            <output message="tns:deleteMenuItemResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="RestaurantBinding" type="tns:RestaurantPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="getMenu">
+            <soap:operation soapAction="getMenu"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getDrinks">
+            <soap:operation soapAction="getDrinks"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="placeOrder">
+            <soap:operation soapAction="placeOrder"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="getOrdersByStatus">
+            <soap:operation soapAction="getOrdersByStatus"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="updateOrderStatus">
+            <soap:operation soapAction="updateOrderStatus"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <!-- Add this inside the binding section -->
+        <operation name="cancelOrder">
+            <soap:operation soapAction="cancelOrder"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="calculateMonthlySales">
+            <soap:operation soapAction="http://www.example.org/restaurant/calculateMonthlySales"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="insertMenuItem">
+            <soap:operation soapAction="http://www.example.org/restaurant/insertMenuItem"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+
+        <operation name="deleteMenuItem">
+            <soap:operation soapAction="http://www.example.org/restaurant/deleteMenuItem"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="RestaurantService">
+        <documentation>My Restaurant Service</documentation>
+        <port name="RestaurantPort" binding="tns:RestaurantBinding">
+            <soap:address location="http://localhost/restaurant/server.php"/>
+        </port>
+    </service>
+</definitions>
